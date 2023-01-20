@@ -1,0 +1,57 @@
+<div class="container">
+    <div class="question_list" *ngFor="let question of questionsArray;let i = index;">
+        <form [hidden]="currentQuestionNumber !== i">
+            <button type="submit" class="btn btn-danger" *ngIf="currentQuestionNumber != 0" (click)="backgoto()" >Back</button>
+            <div class="answers_list">
+                <div [ngSwitch]="question.questiontype">
+                    <div class="question_name"> {{i+1}}. {{question.question}}</div>
+                    <!-- Radion button -->
+                    <div *ngSwitchCase="'Radio'">
+                        <div class="type_radio">
+                            <table class="table table-responsive">
+                                <tr *ngFor="let answer of question.questionoption">
+                                    <td>
+                                        <input type="radio" id="{{answer.optionid}}" name="{{question.question}}"
+                                            value="{{answer.optionvalue}}"> &nbsp;
+                                        <label for="{{answer.optionid}}">{{answer.optionvalue}}</label>
+                                    </td>
+                                </tr>
+                            </table>
+
+                        </div>
+                    </div>
+                    <!-- Textarea -->
+                    <div *ngSwitchCase="'Textarea'">
+                        <div class="text_area" *ngFor="let answer of question.questionoption">
+                            <textarea name="{{question.question}}" class="form-control" id="{{answer.optionid}}"
+                                cols="10" rows="3"></textarea>
+                                <br>
+                        </div>
+                    </div>
+                    <!-- date -->
+                    <div *ngSwitchCase="'Date'">
+                        <div class="date_button" *ngFor="let answer of question.questionoption">
+                            <input type="date" class="form-control">
+                        </div>
+                        <br>
+                    </div>
+                    <!-- Checkbox -->
+                    <div *ngSwitchCase="'Checkbox'">
+                        <div class="Checkbox_button" *ngFor="let answer of question.questionoption">
+                            <input type="checkbox" id="{{answer.optionid}}" value="{{answer.optionid}}"> &nbsp;
+                            <label for="{{answer.optionid}}">{{answer.optionvalue}}</label>
+                        </div>
+                        <br>
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary" (click)="setGoToNextTrue()">Submit</button>
+            
+        </form>
+    </div>
+
+    <div *ngIf="currentQuestionNumber == questionsArray.length"> 
+        <h3>Thanks for participation</h3>
+        <button class="btn btn-default" (click)="Reloadtest()">Reload</button>
+    </div>
+</div>
